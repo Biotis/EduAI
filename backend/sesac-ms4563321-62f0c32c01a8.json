@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "sesac-ms4563321",
+  "private_key_id": "62f0c32c01a8a848b50719d8827b0c8db71bf6af",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCRkFXEbmXwpKfT\nt+WR/4EIfIOwFnv8/gknPAXz1JAgjAxp5/dHa8OmA2NrprveEIFDUom8ZhMUJ8dG\nJsh8cJ3WC33st7xJ5TdvizODb24cTL3Bthojmplqavh6vSzXytiddXAKDYus34O0\nKVgv5sfZn+sj1wkbJ7RexTq+6/ql3KrDSdrA+VdQfbX5kF811pgSDXQMil2WgnXT\nED23HPsPUT0+I9Lg8QE4lCEv7zx7yLUOwgRFib8Axw7cVd2k78wR5t9bgT2yPkiZ\nmMsy611KogRH0qEEhU5GZxmwTpir6XXlYVMf8yz5+18QlKoZUq7d1GM9iE8zZOP7\nEu6TcVmFAgMBAAECggEABgji1WLyTPi2kHt2RAhAtDZdS0aTW1i4zmyZnpM4anED\n7rwUL1zTXqWTUJo3/avXgBAC79GXhuVjSJBBDY+pq38MeGzhnHqpQrGVsCRFf1zb\nHRXMnZ9CLvxCUuxW2JdrRZPh0jjfioo1rplsM4gwzt/nYrP+h6asvqUUm2ezG38r\nf5U6hGCzsMQfBKT3aAWd9R4wEU//VKJO2XNW2tvHx132WWORxi3KWR6oYV9eORj6\nHU7D4tkFbAoO5UZQUyXtel1540dax1KO1IoAjaWfRUf0kCgwDqmflMRRPDGnaPO1\n8ZO+K5nwxuc8Xxfobyw95hMJEfd24myGD52oQfXxoQKBgQDBzFTohM0DSKAPeqr9\nzXa673gGlhgJkkDKnG4jBZCeVCHpdaTJzFm/Aki4GBBfbEHKgSBi4naiNGj80g1z\nT14CZIhpp83I3XuKkJ9WAmVwWrks3XVWD17G3krh/b+vY/N5IqduZsydJmRXN0/4\nKgP0UHtWrcWzeIIddEeRLVkujQKBgQDASMRRh7fdLFjpmoEfvIMax+3KOUppcI0Y\nQCG+5zHZd3bGIpRojPPsSlz7mty8CgsWz4Dq0nQKg30rctldqkA6JnKxjkWuzssE\n+YmzySVDEJVIGAnK1JR2aPfA7h3h+Ay0XxG7U9ocy/TxlNZP17A9xeMR7pdHygRd\n7W2gVQV02QKBgBZq6YOAISr5ErLXsMHtK4fSPaMdZ6hrx5zoXYElmqYF+2pDFo3V\nWqhSvlC1T+eJ4U5og3OM2MZIo8BjF/U3wBssv+7g31gV7r2HnzbWzh8iD3uWHoWW\n/5Knkif0L2E9gaOIk6+cqpyfHUpNdq2xRoXTbYEIVu88yGhZ1BGCGmfdAoGBAIQL\nNG28oqHKy4AYLuXpYarpcr01XIlN1ka5+7KKN6xcIn9rzbiCWxt/8ZyCu2SSDQ1s\nD96yCSgTJcjJhMWSnaqRLqAJ0IZ70eUnq81/qwwD/k/U2hykoRMzgDfIDVNZMPhI\ndPfMXHL8CMhBam7H8mppU0bELrUI4LjTzD2XRTj5AoGBAKc6YbSQ4zp/WaVw+2K3\nuET6N3hZdMG2Am0Bau1nRpFWoWVJaNmFAgkPYwYIyePjUZ3TFbtGJ6z117e2VXOG\neCqmo5xLBrLxChiLGC2u4LxayIbcPL0VO0pNFC2wUutD8mMi+bHM1DCXSDHqfM7n\nTIK/MFs7NWytceV6m063NGM0\n-----END PRIVATE KEY-----\n",
+  "client_email": "lecture-ai-sa@sesac-ms4563321.iam.gserviceaccount.com",
+  "client_id": "112218968797093175587",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/lecture-ai-sa%40sesac-ms4563321.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

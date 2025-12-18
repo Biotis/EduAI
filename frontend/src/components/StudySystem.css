@@ -1,0 +1,639 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  background-color: #f3f4f6;
+}
+
+.study-container {
+  display: flex;
+  height: 100vh;
+  background-color: #f3f4f6;
+}
+
+/* 좌측 사이드바 */
+.sidebar {
+  width: 256px;
+  background-color: white;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebar-header {
+  padding: 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.sidebar-header h1 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #111827;
+}
+
+.sidebar-header p {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.sidebar-new-btn {
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.new-session-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #2563eb;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.new-session-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.sidebar-sessions {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.sessions-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+.session-item {
+  width: 100%;
+  text-align: left;
+  padding: 12px;
+  border-radius: 8px;
+  transition: all 0.3s;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.session-item:hover {
+  background-color: #f3f4f6;
+}
+
+.session-item.active {
+  background-color: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #93c5fd;
+}
+
+.session-name {
+  font-weight: 500;
+  font-size: 14px;
+  color: #374151;
+}
+
+.session-item.active .session-name {
+  color: #1e40af;
+}
+
+.session-date {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.session-item.active .session-date {
+  color: #60a5fa;
+}
+
+.sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border: none;
+  background-color: transparent;
+  color: #374151;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.footer-btn:hover {
+  background-color: #f3f4f6;
+}
+
+.footer-btn span {
+  font-size: 14px;
+}
+
+/* 중앙 메인 컨텐츠 */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: white;
+}
+
+.tab {
+  flex: 1;
+  padding: 16px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  background-color: transparent;
+  color: #4b5563;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s;
+}
+
+.tab:hover {
+  color: #111827;
+}
+
+.tab.active {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+}
+
+.tab-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+/* 정보 출처 섹션 */
+.source-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.source-section h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.upload-area {
+  border: 2px dashed #d1d5db;
+  border-radius: 8px;
+  padding: 32px;
+  text-align: center;
+  background-color: #f9fafb;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.upload-area:hover {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.file-input {
+  display: none;
+}
+
+.upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.upload-label svg {
+  color: #9ca3af;
+}
+
+.upload-label p {
+  font-weight: 500;
+  color: #374151;
+}
+
+.upload-hint {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: normal;
+}
+
+.files-section {
+  margin-top: 16px;
+}
+
+.files-section h3 {
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 12px;
+}
+
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.file-info svg {
+  color: #2563eb;
+  flex-shrink: 0;
+}
+
+.file-name {
+  font-weight: 500;
+  color: #111827;
+  font-size: 14px;
+}
+
+.file-size {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.delete-btn {
+  background-color: transparent;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.3s;
+}
+
+.delete-btn:hover {
+  color: #dc2626;
+}
+
+.summary-btn {
+  width: 100%;
+  background-color: #2563eb;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  margin-top: 16px;
+  transition: background-color 0.3s;
+}
+
+.summary-btn:hover {
+  background-color: #1d4ed8;
+}
+
+/* 요약 섹션 */
+.summary-section h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 16px;
+}
+
+.summary-box {
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 24px;
+  color: #374151;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.empty-state {
+  background-color: #f3f4f6;
+  border-radius: 8px;
+  padding: 32px;
+  text-align: center;
+  color: #6b7280;
+}
+
+/* 채팅 섹션 */
+.chat-section {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.messages-container {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.message {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.message.user {
+  justify-content: flex-end;
+}
+
+.message-bubble {
+  max-width: 70%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  word-wrap: break-word;
+}
+
+.message.user .message-bubble {
+  background-color: #2563eb;
+  color: white;
+  border-radius: 8px 0 8px 8px;
+}
+
+.message.ai .message-bubble {
+  background-color: #d1d5db;
+  color: #111827;
+  border-radius: 0 8px 8px 8px;
+}
+
+.chat-input-area {
+  display: flex;
+  gap: 8px;
+}
+
+.chat-input {
+  flex: 1;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.3s;
+}
+
+.chat-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.send-btn {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.send-btn:hover {
+  background-color: #1d4ed8;
+}
+
+/* 우측 퀴즈 패널 */
+.quiz-panel {
+  width: 320px;
+  background-color: white;
+  border-left: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+}
+
+.quiz-header {
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.quiz-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.quiz-title svg {
+  color: #a855f7;
+}
+
+.quiz-title h3 {
+  font-weight: 600;
+  color: #111827;
+}
+
+.quiz-progress {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.quiz-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.quiz-question {
+  background-color: #faf5ff;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.quiz-question p {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.quiz-option {
+  text-align: left;
+  padding: 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 14px;
+  color: #374151;
+}
+
+.quiz-option:hover {
+  border-color: #d1d5db;
+}
+
+.quiz-option.selected {
+  border-color: #a855f7;
+  background-color: #faf5ff;
+}
+
+.quiz-textarea {
+  width: 100%;
+  height: 96px;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  resize: none;
+  margin-bottom: 16px;
+  transition: border-color 0.3s;
+}
+
+.quiz-textarea:focus {
+  outline: none;
+  border-color: #a855f7;
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+}
+
+.check-answer-btn {
+  width: 100%;
+  background-color: #a855f7;
+  color: white;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 13px;
+  margin-bottom: 12px;
+  transition: background-color 0.3s;
+}
+
+.check-answer-btn:hover {
+  background-color: #9333ea;
+}
+
+.answer-box {
+  background-color: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.answer-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #166534;
+  margin-bottom: 4px;
+}
+
+.answer-text {
+  font-size: 13px;
+  color: #166534;
+}
+
+.quiz-nav {
+  padding: 16px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  gap: 8px;
+}
+
+.nav-btn {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: white;
+  color: #374151;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 13px;
+  transition: all 0.3s;
+}
+
+.nav-btn.next {
+  background-color: #a855f7;
+  color: white;
+  border-color: #a855f7;
+}
+
+.nav-btn.next:hover {
+  background-color: #9333ea;
+}
+
+.nav-btn.prev:hover {
+  background-color: #f3f4f6;
+}
+
+.nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 스크롤바 스타일 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
