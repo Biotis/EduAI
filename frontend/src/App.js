@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 
+// 백엔드 주소. 배포 시에는 REACT_APP_API_BASE 에 Cloud Run 서비스 URL 을 넣습니다.
+const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:8000";
+
 function App() {
   // --- 상태 관리 ---
   const [file, setFile] = useState(null);
@@ -68,7 +71,7 @@ function App() {
     formData.append("purpose", purpose);
 
     try {
-      const response = await fetch("http://localhost:8000/upload", {
+      const response = await fetch(`${API_BASE}/upload`, {
         method: "POST",
         body: formData,
       });
@@ -113,7 +116,7 @@ function App() {
     ));
 
     try {
-      const response = await fetch("http://localhost:8000/chat", {
+      const response = await fetch(`${API_BASE}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ docId: targetDocId, message: userMsg })

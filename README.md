@@ -1,70 +1,142 @@
-# Getting Started with Create React App
+# EduAI — 대학 강의 자료 분석 및 RAG 기반 학습 지원 서비스
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+강의 자료(PDF·PPT)를 올리면 **요약**, **용어집**, **예상문제**를 생성하고, 자료 내용을 근거로 답하는 **RAG 챗봇**을 제공하는 서비스입니다.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 주요 기능
 
-### `npm start`
+- **문서 파싱**: Google Document AI로 텍스트와 표를 추출합니다. PPT/PPTX는 LibreOffice headless 변환을 거쳐 처리하며, 텍스트가 200자 미만인 페이지는 스캔 문서로 판별해 별도 표시합니다.
+- **학습 자료 생성**: 추출한 텍스트와 원본 파일을 함께 Gemini 2.5 Flash에 전달하는 하이브리드 파이프라인으로 요약·용어집·예상문제를 생성합니다. 각 단계는 정식 프롬프트 → 단순 프롬프트 → 규칙 기반 폴백의 3단 구조라서, 생성이 실패해도 응답이 비지 않습니다.
+- **RAG 챗봇**: LlamaIndex와 LanceDB로 페이지 단위 인덱스를 만들고, `ContextChatEngine`으로 대화 히스토리를 유지합니다. 답변과 함께 근거 페이지 번호와 유사도 점수를 반환합니다.
+- **개인화**: 학습자 수준(`novice`/`intermediate`)과 학습 목적(`understanding`/`exam`)에 따라 생성 결과가 달라집니다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 아키텍처
 
-### `npm test`
+```
+React (Firebase Hosting)
+        │  POST /upload, POST /chat
+        ▼
+FastAPI (Cloud Run, Docker)
+        ├── services/document_ai.py    Document AI 파싱, PPT→PDF 변환
+        ├── services/vertex_gemini.py  요약·용어집·예상문제 생성 (Gemini 2.5 Flash)
+        └── services/rag_llamaindex.py LlamaIndex + LanceDB 인덱싱 및 대화형 검색
+                    │
+                    ▼
+        GCS (원본 보관) · Vertex AI (LLM/임베딩)
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 기술 스택
 
-### `npm run build`
+| 구분 | 사용 기술 |
+|---|---|
+| Backend | Python 3.11, FastAPI, Uvicorn |
+| Frontend | React 19 (Create React App), Tailwind CSS |
+| 문서 처리 | Google Document AI, pypdf, LibreOffice |
+| 생성 모델 | Vertex AI Gemini 2.5 Flash |
+| 임베딩 | Vertex AI `text-embedding-005` |
+| 벡터 스토어 | LanceDB (LlamaIndex `LanceDBVectorStore`) |
+| 스토리지 | Google Cloud Storage |
+| 배포 | Docker, Cloud Run, Firebase Hosting |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## API
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+| 메서드 | 경로 | 설명 |
+|---|---|---|
+| `GET` | `/` | 헬스 체크 |
+| `POST` | `/upload` | 강의 자료 업로드 후 요약·용어집·예상문제 생성. `file`, `audience`, `purpose` 를 multipart 로 전송 |
+| `POST` | `/chat` | 업로드 시 받은 `docId` 를 대상으로 RAG 질의 응답 |
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 로컬 실행
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 사전 준비
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Python 3.11, Node.js 18 이상
+- GCP 프로젝트와 Document AI 프로세서
+- `gcloud auth application-default login` 으로 로컬 인증 설정
+- PPT 업로드를 쓰려면 LibreOffice 설치
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 백엔드
 
-## Learn More
+```bash
+cd backend
+python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+cp .env.example .env        # 값을 채워 넣습니다
+uvicorn main:app --reload --port 8000
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 프론트엔드
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+cd frontend
+npm install
+cp .env.example .env        # REACT_APP_API_BASE 를 백엔드 주소로 설정
+npm start
+```
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 배포
 
-### Analyzing the Bundle Size
+### 백엔드 — Cloud Run
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+cd backend
+gcloud builds submit --tag asia-northeast3-docker.pkg.dev/$PROJECT_ID/eduai/backend:latest .
+```
 
-### Making a Progressive Web App
+```bash
+gcloud run deploy eduai-backend --image=asia-northeast3-docker.pkg.dev/$PROJECT_ID/eduai/backend:latest --region=asia-northeast3 --memory=4Gi --cpu=2 --timeout=600 --set-env-vars="GOOGLE_CLOUD_PROJECT=$PROJECT_ID,DOC_AI_LOCATION=us,DOC_AI_PROCESSOR_ID=$DOC_AI_PROCESSOR_ID,DOC_AI_GCS_BUCKET=$DOC_AI_GCS_BUCKET,DOC_AI_GCS_PREFIX=docai,LIBREOFFICE_PATH=/usr/bin/soffice,ALLOWED_ORIGINS=https://$FIREBASE_PROJECT.web.app" --allow-unauthenticated
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Cloud Run 서비스 계정에는 Document AI 사용자, Storage 객체 관리자, Vertex AI 사용자 역할이 필요합니다.
 
-### Advanced Configuration
+> **자격 증명을 저장소에 커밋하지 마십시오.** 서비스 계정 키 파일 대신 Cloud Run 의 런타임 서비스 계정을 사용하고, 로컬에서는 `gcloud auth application-default login` 을 쓰면 키 파일 자체가 필요 없습니다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 프론트엔드 — Firebase Hosting
 
-### Deployment
+```bash
+cd frontend
+echo "REACT_APP_API_BASE=https://<cloud-run-service-url>" > .env.production
+npm run build
+firebase deploy --only hosting
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+`.firebaserc` 의 `your-firebase-project-id` 를 실제 프로젝트 ID로 바꾸어야 합니다.
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 알려진 제약
+
+- **LanceDB 인덱스가 컨테이너 로컬 디스크(`./lancedb`)에 저장됩니다.** Cloud Run 인스턴스는 상태를 유지하지 않으므로, 인스턴스가 교체되거나 여러 개로 확장되면 이전에 업로드한 문서의 인덱스를 찾지 못합니다. 다중 인스턴스 환경에서 운영하려면 인덱스를 GCS 등 외부 스토리지로 옮기거나 최소 인스턴스를 1로 고정해야 합니다.
+- 채팅 엔진(`_CHAT_ENGINES`)이 프로세스 메모리에 캐시되므로 대화 히스토리도 인스턴스 재시작 시 사라집니다.
+- LibreOffice 를 포함하면서 이미지 용량이 커져 콜드 스타트가 느립니다. PPT 지원이 필요 없다면 `Dockerfile` 의 해당 설치 단계를 제거할 수 있습니다.
+
+---
+
+## 프로젝트 구조
+
+```
+backend/
+├── Dockerfile
+├── requirements.txt
+├── .env.example
+├── main.py                    FastAPI 엔트리포인트
+└── services/
+    ├── document_ai.py         Document AI 파싱
+    ├── vertex_gemini.py       요약·용어집·예상문제 생성
+    └── rag_llamaindex.py      LlamaIndex + LanceDB RAG
+frontend/
+├── firebase.json
+├── .firebaserc
+├── .env.example
+└── src/                       React 애플리케이션
+발표 자료/                       최종 발표 자료
+```
