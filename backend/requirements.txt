@@ -1,6 +1,11 @@
-# EduAI backend dependencies
-# Python 3.11 기준. 버전은 개발 당시 가상환경(dist-info) 기록을 따랐고,
-# LlamaIndex/LanceDB 계열은 가상환경에 기록이 없어 최소 버전으로 명시했습니다.
+# EduAI backend dependencies (Python 3.11)
+#
+# NOTE: keep this file ASCII-only. pip decodes requirements files with the
+# system locale encoding (cp949 on Korean Windows, ASCII in slim containers),
+# not UTF-8, so non-ASCII comments break `pip install -r`.
+#
+# Versions are pinned from the dist-info records of the original virtualenv.
+# LlamaIndex / LanceDB packages had no record there, so only a lower bound is set.
 
 # --- Web framework ---
 fastapi==0.124.0
